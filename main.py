@@ -11,4 +11,4 @@ for type in types:
 	
 
 print(len(files));
-print(files)
+print(files);
