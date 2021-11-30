@@ -27,4 +27,4 @@ if process.returncode == 0:
 else:
 	print(f'Please install {program} for compressing');
 	print(f'Try: brew install {program}');
-	sys.exit()
+	sys.exit();
