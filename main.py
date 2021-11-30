@@ -1,8 +1,10 @@
+import os
 import glob
 import subprocess
 import sys
 
 file_path = input('Which folder do you want to process?\n').rstrip();
+output_path = input('Where do you want to save the compressed files?\n').rstrip();
 types = ['.mp4', '.MP4', '.mov', '.MOV', '.jpg']
 files = []
 program = 'ffmpeg'
@@ -30,10 +32,17 @@ else:
 	sys.exit();
 
 i = 1;
+
 for file in files:
-	output = f'{file}/{file}'
-	print(output)
-	ffmpeg = subprocess.run([program, '-i', file, f'{output}']);
+	output = f'{output_path}/{os.path.dirname(os.path.abspath(file))[-5:]}';
+	print(os.path.basename(file));
+	if os.path.isdir(output):
+		pass
+	else: 
+		os.mkdir(f'{output_path}/{os.path.dirname(os.path.abspath(file))[-5:]}');
+	
+	ffmpeg = subprocess.run([program, '-i', file, f'{output}/{os.path.basename(file)}']);
 	print(f'[INFO] {i} of {len(files)} files processed');
 	print(ffmpeg)
+	print(os.path.dirname(os.path.abspath(file))[-5:]);
 	i+= 1;
