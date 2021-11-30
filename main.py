@@ -19,7 +19,7 @@ else:
 	sys.exit()
 	
 	
-process = subprocess. run(['which', program], capture_output=True, text=True)
+process = subprocess.run(['which', program], capture_output=True, text=True)
 
 if process.returncode == 0: 
 	print(f'[INFO] {program} initialized');
@@ -28,3 +28,12 @@ else:
 	print(f'Please install {program} for compressing');
 	print(f'Try: brew install {program}');
 	sys.exit();
+
+i = 1;
+for file in files:
+	output = f'{file}/{file}'
+	print(output)
+	ffmpeg = subprocess.run([program, '-i', file, f'{output}']);
+	print(f'[INFO] {i} of {len(files)} files processed');
+	print(ffmpeg)
+	i+= 1;
