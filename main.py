@@ -5,7 +5,7 @@ import sys
 
 file_path = input('Which folder do you want to process?\n').rstrip();
 output_path = input('Where do you want to save the compressed files?\n').rstrip();
-types = ['.mp4', '.MP4', '.mov', '.MOV', '.jpg']
+types = ['.mp4', '.MP4', '.mov', '.MOV', '.JPG', '.jpg']
 files = []
 program = 'ffmpeg'
 
@@ -34,15 +34,17 @@ else:
 i = 1;
 
 for file in files:
-	output = f'{output_path}/{os.path.dirname(os.path.abspath(file))[-5:]}';
-	print(os.path.basename(file));
+	outputPathName = (os.path.dirname(os.path.abspath(file))).rsplit('/',1)[1];
+	output = f'{output_path}/{outputPathName}';
+	# output = f'{output_path}/{(os.path.dirname(os.path.abspath(file)).rsplit('/',1)[1]}';
+	# print(os.path.basename(file));
 	if os.path.isdir(output):
 		pass
 	else: 
-		os.mkdir(f'{output_path}/{os.path.dirname(os.path.abspath(file))[-5:]}');
+		os.mkdir(f'{output_path}/{outputPathName}');
 	
-	ffmpeg = subprocess.run([program, '-i', file, f'{output}/{os.path.basename(file)}']);
-	print(f'[INFO] {i} of {len(files)} files processed');
+	ffmpeg = subprocess.run([program, '-i', file, '-vcodec', 'libx264', '-crf', '25', '-preset', 'veryfast', f'{output}/{os.path.basename(file)}']);
+	print(f'[INFO] {i} of {len(files)} files processed\n');
 	print(ffmpeg)
-	print(os.path.dirname(os.path.abspath(file))[-5:]);
+	print(outputPathName);
 	i+= 1;
